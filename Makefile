@@ -561,6 +561,13 @@ build-capi:
 	RUSTFLAGS="${RUSTFLAGS}" $(CARGO_BINARY) build $(CARGO_TARGET_FLAG) --manifest-path lib/c-api/Cargo.toml --release \
 		--no-default-features --features wat,compiler,wasi,middlewares,webc_runner $(capi_compiler_features) --locked
 
+RUSTFLAGS += -L$(ANDROID_NDK_ROOT)/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/34/
+RUSTFLAGS += -L$(ANDROID_NDK_ROOT)/toolchains/llvm/prebuilt/linux-x86_64/lib/aarch64-unknown-linux-musl/
+RUSTFLAGS += -C linker=aarch64-linux-android34-clang
+build-capi-android:
+	RUSTFLAGS="${RUSTFLAGS}" $(CARGO_BINARY) build --target aarch64-linux-android --manifest-path lib/c-api/Cargo.toml --release \
+		--no-default-features --features wat,compiler,wasi,middlewares,webc_runner $(capi_compiler_features) --locked
+
 build-capi-singlepass:
 	RUSTFLAGS="${RUSTFLAGS}" $(CARGO_BINARY) build $(CARGO_TARGET_FLAG) --manifest-path lib/c-api/Cargo.toml --release \
 		--no-default-features --features wat,compiler,singlepass,wasi,middlewares,webc_runner --locked
