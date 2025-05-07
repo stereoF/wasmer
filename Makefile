@@ -619,6 +619,11 @@ build-capi-headless-ios:
 	RUSTFLAGS="${RUSTFLAGS} -C panic=abort" cargo lipo --manifest-path lib/c-api/Cargo.toml --release \
 		--no-default-features --features compiler-headless,wasi,webc_runner --target-dir target/$(CARGO_TARGET)/headless
 
+build-capi-wamr:
+	RUSTFLAGS="-C panic=abort" cargo lipo --manifest-path lib/c-api/Cargo.toml --release \
+		--no-default-features --features wat,wamr-default,wasi --locked
+
+
 #####
 #
 # Testing.
